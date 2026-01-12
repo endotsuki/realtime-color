@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { Copy, Pipette } from "lucide-react";
+import { IconColorPicker, IconCopy } from "@tabler/icons-react";
 import { HexColorPicker } from "react-colorful";
 import { toast } from "sonner";
 
@@ -87,7 +87,7 @@ export function ColorPicker({
               className="h-10 w-12 shrink border-gray-300 bg-gray-100 text-gray-900 hover:bg-gray-200"
               style={{ borderRadius: "6px" }}
             >
-              <Copy className="h-4 w-4" />
+              <IconCopy className="h-4 w-4" />
               <span className="sr-only">Copy color</span>
             </Button>
           </div>
@@ -101,7 +101,7 @@ export function ColorPicker({
                 className="h-10 w-10 border-gray-300 bg-gray-100 text-gray-900 hover:bg-gray-200"
                 style={{ borderRadius: "6px" }}
               >
-                <Pipette className="h-4 w-4" />
+                <IconColorPicker className="h-4 w-4" />
                 <span className="sr-only">Pick color</span>
               </Button>
 

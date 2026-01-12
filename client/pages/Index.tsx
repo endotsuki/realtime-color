@@ -23,7 +23,21 @@ import {
   generateCSSVariables,
   generateTailwindConfig,
 } from "@/utils/colorUtils";
-import { Check, Copy, RotateCcw } from "lucide-react";
+import { Combobox } from "@/components/ui/combobox";
+import {
+  IconArrowsRandom,
+  IconCheck,
+  IconChevronDown,
+  IconColorFilter,
+  IconDownload,
+  IconFileDescription,
+  IconPaletteFilled,
+  IconRainbow,
+  IconRepeat,
+  IconRotateClockwise,
+  IconTextResize,
+} from "@tabler/icons-react";
+import { Button } from "@/components/ui/button";
 
 const ControlPanel = () => {
   const {
@@ -31,7 +45,6 @@ const ControlPanel = () => {
     updateColor,
     toggleDarkMode,
     toggleRounded,
-    setFontSize,
     setFontFamily,
     setFontWeight,
     setCustomFont,
@@ -87,7 +100,10 @@ const ControlPanel = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <h2 className="font-semibold text-foreground text-xl">Colors</h2>
+          <div className="flex items-center gap-2 mb-2">
+            <IconPaletteFilled />
+            <h2 className="font-semibold text-foreground text-xl">Colors</h2>
+          </div>
           <ColorControl
             label="Primary"
             value={state.colors.primary}
@@ -122,10 +138,10 @@ const ControlPanel = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <h2 className="font-semibold text-foreground text-xs uppercase tracking-widest text-center">
-            🌓 Display
-          </h2>
-
+          <div className="flex items-center gap-2 mb-2">
+            <IconColorFilter />
+            <h2 className="font-semibold text-foreground text-xl">Display</h2>
+          </div>
           <label className="flex items-center gap-3 cursor-pointer px-2 py-2 rounded hover:bg-background/50 transition-colors">
             <input
               type="checkbox"
@@ -147,35 +163,6 @@ const ControlPanel = () => {
           </label>
         </motion.div>
 
-        {/* Font Size */}
-        <motion.div
-          className="space-y-2 bg-muted/40 rounded-lg p-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <h2 className="font-semibold text-foreground text-xs uppercase tracking-widest text-center">
-            📝 Font Size
-          </h2>
-          <div className="flex gap-2">
-            {(["sm", "md", "lg"] as const).map((size) => (
-              <motion.button
-                key={size}
-                onClick={() => setFontSize(size)}
-                className={`flex-1 py-2 rounded-md text-xs font-bold  ${
-                  state.fontSize === size
-                    ? "bg-primary text-primary-foreground shadow-lg"
-                    : "bg-background text-muted-foreground hover:bg-muted border border-border/50"
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {size.toUpperCase()}
-              </motion.button>
-            ))}
-          </div>
-        </motion.div>
-
         {/* Typography */}
         <motion.div
           className="space-y-3 bg-muted/40 rounded-lg p-4"
@@ -183,27 +170,26 @@ const ControlPanel = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55 }}
         >
-          <h2 className="font-semibold text-foreground text-xs uppercase tracking-widest text-center">
-            🔤 Typography
-          </h2>
+          <div className="flex items-center gap-2 mb-2">
+            <IconTextResize />
+            <h2 className="font-semibold text-foreground text-xl">Prototype</h2>
+          </div>
 
           {/* Font Family */}
           <div className="space-y-1.5">
             <label className="text-xs font-medium text-muted-foreground block pl-1">
               Family
             </label>
-            <select
+            <Combobox
+              options={Object.keys(FONT_FAMILIES).map((family) => ({
+                value: family,
+                label: family,
+              }))}
               value={state.fontFamily}
-              onChange={(e) => setFontFamily(e.target.value)}
+              onChange={(v) => setFontFamily(v)}
+              placeholder="Select family..."
               disabled={!!state.customFontName}
-              className="w-full px-2 py-1.5 rounded text-xs border border-border bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors disabled:opacity-50"
-            >
-              {Object.keys(FONT_FAMILIES).map((family) => (
-                <option key={family} value={family}>
-                  {family}
-                </option>
-              ))}
-            </select>
+            />
           </div>
 
           {/* Font Weight */}
@@ -211,17 +197,18 @@ const ControlPanel = () => {
             <label className="text-xs font-medium text-muted-foreground block pl-1">
               Weight
             </label>
-            <select
+            <Combobox
+              options={[
+                { value: "400", label: "Light (400)" },
+                { value: "500", label: "Regular (500)" },
+                { value: "600", label: "Semi Bold (600)" },
+                { value: "700", label: "Bold (700)" },
+                { value: "800", label: "Extra Bold (800)" },
+              ]}
               value={state.fontWeight}
-              onChange={(e) => setFontWeight(e.target.value as any)}
-              className="w-full px-2 py-1.5 rounded text-xs border border-border bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-            >
-              <option value="400">Light (400)</option>
-              <option value="500">Regular (500)</option>
-              <option value="600">Semi Bold (600)</option>
-              <option value="700">Bold (700)</option>
-              <option value="800">Extra Bold (800)</option>
-            </select>
+              onChange={(v) => setFontWeight(v as any)}
+              placeholder="Select weight..."
+            />
           </div>
 
           {/* Custom Font Upload */}
@@ -236,83 +223,94 @@ const ControlPanel = () => {
 
         {/* Content Customization */}
         <motion.div
-          className="bg-muted/40 rounded-lg p-4"
+          className="bg-gray-50 dark:bg-gray-900 rounded-xl p-5 shadow-sm"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.65 }}
         >
+          {/* Header */}
           <button
             onClick={() => setShowContent(!showContent)}
-            className="w-full font-semibold text-foreground text-xs uppercase tracking-widest flex items-center justify-between px-2 py-2"
+            className="w-full flex items-center justify-between focus:outline-none"
           >
-            <span>📄 Content & Text</span>
-            <span className="text-lg">{showContent ? "▼" : "▶"}</span>
+            <div className="flex items-center gap-3">
+              <IconFileDescription className="w-6 h-6 text-primary-500" />
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                Content
+              </h2>
+            </div>
+            <span
+              className={`text-lg transform transition-transform duration-300 ${
+                showContent ? "rotate-0" : "-rotate-90"
+              }`}
+            >
+              <IconChevronDown />
+            </span>
           </button>
 
+          {/* Text Editors */}
           <AnimatePresence>
             {showContent && (
               <motion.div
-                className="space-y-3 pt-3 mt-2 border-t border-border/50"
+                className="mt-4 space-y-3 border-t border-gray-200 dark:border-gray-700 pt-4"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <TextEditor
-                  label="Navbar Brand"
-                  value={state.textContent.navbarBrand}
-                  onChange={(value) => updateTextContent("navbarBrand", value)}
-                  maxLength={50}
-                />
+                {[
+                  {
+                    label: "Navbar Brand",
+                    key: "navbarBrand" as const,
+                    maxLength: 50,
+                  },
+                  {
+                    label: "Hero Title",
+                    key: "heroTitle" as const,
+                    maxLength: 100,
+                  },
+                  {
+                    label: "Hero Description",
+                    key: "heroDescription" as const,
+                    maxLength: 200,
+                    multiline: true,
+                    rows: 3,
+                  },
+                  {
+                    label: "Section Title",
+                    key: "cardTitle" as const,
+                    maxLength: 50,
+                  },
+                  {
+                    label: "Get Started Button",
+                    key: "getStartedBtn" as const,
+                    maxLength: 30,
+                  },
+                  {
+                    label: "Learn More Button",
+                    key: "learnMoreBtn" as const,
+                    maxLength: 30,
+                  },
+                ].map((item) => (
+                  <TextEditor
+                    key={item.key}
+                    label={item.label}
+                    value={state.textContent[item.key]}
+                    onChange={(value) => updateTextContent(item.key, value)}
+                    maxLength={item.maxLength}
+                    multiline={item.multiline}
+                    rows={item.rows}
+                  />
+                ))}
 
-                <TextEditor
-                  label="Hero Title"
-                  value={state.textContent.heroTitle}
-                  onChange={(value) => updateTextContent("heroTitle", value)}
-                  maxLength={100}
-                />
-
-                <TextEditor
-                  label="Hero Description"
-                  value={state.textContent.heroDescription}
-                  onChange={(value) =>
-                    updateTextContent("heroDescription", value)
-                  }
-                  maxLength={200}
-                  multiline
-                  rows={3}
-                />
-
-                <TextEditor
-                  label="Section Title"
-                  value={state.textContent.cardTitle}
-                  onChange={(value) => updateTextContent("cardTitle", value)}
-                  maxLength={50}
-                />
-
-                <TextEditor
-                  label="Get Started Button"
-                  value={state.textContent.getStartedBtn}
-                  onChange={(value) =>
-                    updateTextContent("getStartedBtn", value)
-                  }
-                  maxLength={30}
-                />
-
-                <TextEditor
-                  label="Learn More Button"
-                  value={state.textContent.learnMoreBtn}
-                  onChange={(value) => updateTextContent("learnMoreBtn", value)}
-                  maxLength={30}
-                />
-
+                {/* Reset Button */}
                 <motion.button
                   onClick={resetTextContent}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full py-2 px-4 bg-muted text-muted-foreground rounded-lg font-medium  hover:opacity-90 text-sm flex items-center justify-center gap-2"
+                  className="w-full py-2 px-4 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-xl font-medium hover:opacity-90 text-sm flex items-center justify-center gap-2 shadow-sm"
                 >
-                  <RotateCcw size={14} />
+                  <IconRotateClockwise size={16} />
                   Reset Text
                 </motion.button>
               </motion.div>
@@ -322,23 +320,36 @@ const ControlPanel = () => {
 
         {/* Presets */}
         <motion.div
-          className="bg-muted/40 rounded-lg p-4"
+          className="bg-gray-50 dark:bg-gray-900 rounded-xl p-5 shadow-sm"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.68 }}
         >
+          {/* Header */}
           <button
             onClick={() => setShowPresets(!showPresets)}
-            className="w-full font-semibold text-foreground text-xs uppercase tracking-widest flex items-center justify-between px-2 py-2"
+            className="w-full flex items-center justify-between focus:outline-none"
           >
-            <span>✨ Color Presets</span>
-            <span className="text-lg">{showPresets ? "▼" : "▶"}</span>
+            <div className="flex items-center gap-3">
+              <IconRainbow className="w-6 h-6 text-primary-500" />
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                Color Presets
+              </h2>
+            </div>
+            <span
+              className={`text-lg transform transition-transform duration-300 ${
+                showPresets ? "rotate-0" : "-rotate-90"
+              }`}
+            >
+              <IconChevronDown />
+            </span>
           </button>
 
+          {/* Presets Grid */}
           <AnimatePresence>
             {showPresets && (
               <motion.div
-                className="space-y-2 pt-3 mt-2 border-t border-border/50 grid grid-cols-2 gap-2"
+                className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
@@ -348,35 +359,29 @@ const ControlPanel = () => {
                   <motion.button
                     key={preset.name}
                     onClick={() => applyPreset(preset)}
-                    className="p-3 rounded-lg border border-border/50 bg-background hover:bg-muted  text-left"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    className="p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm hover:shadow-md text-left flex flex-col transition-all duration-200"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
                   >
-                    <p className="text-xs font-semibold text-foreground mb-1">
+                    {/* Preset Info */}
+                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-1">
                       {preset.name}
                     </p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       {preset.description}
                     </p>
-                    <div className="flex gap-1 mt-2">
-                      <div
-                        className="w-2 h-2 rounded-full"
-                        style={{
-                          backgroundColor: `hsl(${preset.colors.primary})`,
-                        }}
-                      />
-                      <div
-                        className="w-2 h-2 rounded-full"
-                        style={{
-                          backgroundColor: `hsl(${preset.colors.secondary})`,
-                        }}
-                      />
-                      <div
-                        className="w-2 h-2 rounded-full"
-                        style={{
-                          backgroundColor: `hsl(${preset.colors.accent})`,
-                        }}
-                      />
+
+                    {/* Color Indicators */}
+                    <div className="flex gap-2 mt-3">
+                      {["primary", "secondary", "accent"].map((key) => (
+                        <span
+                          key={key}
+                          className="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-600"
+                          style={{
+                            backgroundColor: `hsl(${preset.colors[key]})`,
+                          }}
+                        />
+                      ))}
                     </div>
                   </motion.button>
                 ))}
@@ -401,42 +406,37 @@ const ControlPanel = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
-          <motion.button
+          <Button
             onClick={generateRandomPalette}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full py-2 px-4 bg-gradient-to-r from-primary to-secondary text-primary-foreground rounded-lg font-bold text-sm  shadow-sm hover:shadow-md"
+            variant="design-review"
+            className="w-full"
           >
-            🎲 Random
-          </motion.button>
+            <IconArrowsRandom size={16} />
+            Random
+          </Button>
 
-          <motion.button
-            onClick={resetPalette}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full py-2 px-4 bg-muted text-muted-foreground rounded-lg font-bold text-sm  flex items-center justify-center gap-2 border border-border/50 hover:bg-muted/80"
-          >
-            <RotateCcw size={14} />
-            Reset
-          </motion.button>
+          <Button onClick={resetPalette} variant="in-review" className="w-full">
+            <IconRotateClockwise size={16} />
+            Reset Colors
+          </Button>
 
-          <motion.button
+          <Button
             onClick={() => setShowExport(!showExport)}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full py-2 px-4 bg-accent text-accent-foreground rounded-lg font-bold text-sm  shadow-sm hover:shadow-md"
+            variant="done"
+            className="w-full"
           >
-            📥 Export
-          </motion.button>
+            <IconDownload size={16} />
+            Export
+          </Button>
 
-          <motion.button
+          <Button
+            variant="blocked"
             onClick={resetAllToDefaults}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full py-2 px-4 bg-destructive/10 text-destructive rounded-lg font-bold text-sm  border border-destructive/30 hover:bg-destructive/20"
+            className="w-full"
           >
-            🔄 Reset All
-          </motion.button>
+            <IconRepeat size={16} />
+            Reset All
+          </Button>
         </motion.div>
 
         {/* Export Panel */}
@@ -470,7 +470,7 @@ const ControlPanel = () => {
                   </button>
                   {copiedItem === "css" && (
                     <div className="flex items-center gap-1 text-green-600">
-                      <Check size={16} />
+                      <IconCheck size={16} />
                     </div>
                   )}
                 </div>
@@ -500,7 +500,7 @@ const ControlPanel = () => {
                   </button>
                   {copiedItem === "tailwind" && (
                     <div className="flex items-center gap-1 text-green-600">
-                      <Check size={16} />
+                      <IconCheck size={16} />
                     </div>
                   )}
                 </div>

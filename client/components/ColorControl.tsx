@@ -1,12 +1,7 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import {
-  hslToHex,
-  hexToHsl,
-  validateHexColor,
-  formatHex,
-} from "@/utils/colorUtils";
-import { ColorPicker } from "./ui/color";
+import { hslToHex, hexToHsl } from "@/utils/colorUtils";
+import { ColorPicker } from "./ui/color-picker";
 
 interface ColorControlProps {
   label: string;

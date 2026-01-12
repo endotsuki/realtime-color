@@ -1,4 +1,3 @@
-import { Plus } from "lucide-react";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 export interface ColorPalette {
