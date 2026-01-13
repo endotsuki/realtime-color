@@ -80,10 +80,6 @@ export const PreviewPricing = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
-              whileHover={{
-                y: -5,
-                transition: { duration: 0.2 },
-              }}
               style={{
                 backgroundColor: selectedPlan === plan.name ? `hsl(var(--color-primary) / 0.08)` : `hsl(var(--color-bg))`,
                 border: selectedPlan === plan.name ? `2px solid hsl(var(--color-primary))` : `1px solid hsl(var(--color-text) / 0.12)`,

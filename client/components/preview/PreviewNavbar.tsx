@@ -2,12 +2,14 @@ import { motion } from 'framer-motion';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRef, useState, useEffect } from 'react';
 import { IconUpload } from '@tabler/icons-react';
+import { useToast } from '@/hooks/use-toast';
 
 export const PreviewNavbar = () => {
   const { state } = useTheme();
   const { navbarBrand, navbarItems, navbarCta } = state.textContent;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [logo, setLogo] = useState('');
+  const { toast } = useToast();
 
   // Load logo from localStorage on mount
   useEffect(() => {
@@ -15,16 +17,39 @@ export const PreviewNavbar = () => {
     if (savedLogo) setLogo(savedLogo);
   }, []);
 
+  // Clear logo when reset happens
+  useEffect(() => {
+    const savedLogo = localStorage.getItem('navbar-logo');
+    if (!savedLogo) {
+      setLogo('');
+    }
+  }, []);
+
   // Handle file upload and save to localStorage
   const uploadLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    // Check file size (5MB = 5242880 bytes)
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+    if (file.size > MAX_FILE_SIZE) {
+      toast({
+        title: 'File too large',
+        description: `Image size must be less than 5MB. Your file is ${(file.size / 1024 / 1024).toFixed(2)}MB.`,
+        variant: 'destructive',
+      });
+      return;
+    }
 
     const reader = new FileReader();
     reader.onload = () => {
       const imageData = reader.result as string;
       setLogo(imageData);
       localStorage.setItem('navbar-logo', imageData);
+      toast({
+        title: 'Logo uploaded',
+        description: 'Your logo has been saved successfully.',
+      });
     };
     reader.readAsDataURL(file);
   };

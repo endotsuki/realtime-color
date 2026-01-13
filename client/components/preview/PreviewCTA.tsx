@@ -1,14 +1,14 @@
-import { motion } from "framer-motion";
-import { useTheme } from "@/contexts/ThemeContext";
+import { motion } from 'framer-motion';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export const PreviewCTA = () => {
   const { state } = useTheme();
 
   return (
     <motion.section
-      className="py-20  duration-300"
+      className='py-20 backdrop-blur-lg duration-300'
       style={{
-        background: `linear-gradient(135deg, hsl(var(--color-primary)), hsl(var(--color-secondary)))`,
+        background: `linear-gradient(135deg, hsl(var(--color-primary)/0.5), hsl(var(--color-secondary)/0.5))`,
         fontFamily: `var(--font-family)`,
         fontWeight: `var(--font-weight)`,
       }}
@@ -16,53 +16,46 @@ export const PreviewCTA = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, delay: 0.55 }}
     >
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
+      <div className='mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8'>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.6 }}>
           <h2
-            className="text-4xl sm:text-5xl font-bold mb-6  duration-300"
+            className='mb-6 text-4xl font-bold duration-300 sm:text-5xl'
             style={{
-              color: `hsl(var(--color-bg))`,
+              color: `hsl(var(--color-text))`,
             }}
           >
             Ready to Get Started?
           </h2>
 
           <p
-            className="text-lg mb-8  duration-300"
+            className='mb-8 text-lg duration-300'
             style={{
-              color: `hsl(var(--color-bg) / 0.9)`,
+              color: `hsl(var(--color-text) / 0.9)`,
             }}
           >
-            Join thousands of designers and developers creating beautiful color
-            systems every day. Start your free trial today—no credit card
-            required.
+            Join thousands of designers and developers creating beautiful color systems every day. Start your free trial today—no credit
+            card required.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className='flex flex-col justify-center gap-4 sm:flex-row'>
             <motion.button
-              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 rounded-lg font-bold text-lg  duration-300"
+              className='flex h-14 items-center justify-center rounded-lg px-10 text-lg font-medium leading-none'
               style={{
                 backgroundColor: `hsl(var(--color-bg))`,
-                color: `hsl(var(--color-primary))`,
+                color: `hsl(var(--color-text))`,
               }}
             >
               Start Free Trial
             </motion.button>
 
             <motion.button
-              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 rounded-lg font-bold text-lg  duration-300 border-2"
+              className='flex h-14 items-center justify-center rounded-lg border px-10 text-lg font-medium leading-none'
               style={{
                 borderColor: `hsl(var(--color-bg))`,
                 color: `hsl(var(--color-bg))`,
-                backgroundColor: "transparent",
+                backgroundColor: 'transparent',
               }}
             >
               Schedule Demo
@@ -70,9 +63,9 @@ export const PreviewCTA = () => {
           </div>
 
           <p
-            className="text-sm mt-6  duration-300"
+            className='mt-6 text-base duration-300'
             style={{
-              color: `hsl(var(--color-bg) / 0.7)`,
+              color: `hsl(var(--color-text) / 0.7)`,
             }}
           >
             14-day free trial. No credit card. Cancel anytime.
