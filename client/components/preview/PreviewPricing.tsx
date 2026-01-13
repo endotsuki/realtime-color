@@ -1,59 +1,48 @@
-import { motion } from "framer-motion";
-import { useTheme } from "@/contexts/ThemeContext";
+import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { IconCheck } from '@tabler/icons-react';
 
 const PRICING_PLANS = [
   {
-    name: "Open Source",
-    price: "Free",
-    description: "For everyone, forever",
+    name: 'Open Source',
+    price: 'Free',
+    description: 'For everyone, forever',
     features: [
-      "Unlimited Projects",
-      "All Color Features",
-      "Live Preview",
-      "Accessibility Checker",
-      "Full Export Options",
-      "Open Source Code",
+      'Unlimited Projects',
+      'All Color Features',
+      'Live Preview',
+      'Accessibility Checker',
+      'Full Export Options',
+      'Open Source Code',
     ],
     highlighted: true,
   },
   {
-    name: "Self-Hosted",
-    price: "Free",
-    description: "Run on your own infrastructure",
-    features: [
-      "Docker Support",
-      "Full Control",
-      "No Data Sharing",
-      "Custom Branding",
-      "Team Collaboration",
-      "API Access",
-    ],
+    name: 'Self-Hosted',
+    price: '$49',
+    description: 'Run on your own infrastructure',
+    features: ['Docker Support', 'Full Control', 'No Data Sharing', 'Custom Branding', 'Team Collaboration', 'API Access'],
     highlighted: false,
   },
   {
-    name: "Community",
-    price: "Free",
-    description: "Built by and for designers",
-    features: [
-      "Community Support",
-      "Regular Updates",
-      "Contribute Features",
-      "Vote on Roadmap",
-      "Use Any License",
-      "Zero Restrictions",
-    ],
+    name: 'Community',
+    price: '$99',
+    description: 'Built by and for designers',
+    features: ['Community Support', 'Regular Updates', 'Contribute Features', 'Vote on Roadmap', 'Use Any License', 'Zero Restrictions'],
     highlighted: false,
   },
 ];
 
 export const PreviewPricing = () => {
   const { state } = useTheme();
+  const [selectedPlan, setSelectedPlan] = useState<string>('Open Source');
 
   return (
     <motion.section
-      className="py-20  duration-300"
+      className='py-24 duration-300'
       style={{
-        backgroundColor: `hsl(var(--color-primary) / 0.05)`,
+        backgroundColor: `hsl(var(--color-bg))`,
         fontFamily: `var(--font-family)`,
         fontWeight: `var(--font-weight)`,
       }}
@@ -61,128 +50,150 @@ export const PreviewPricing = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, delay: 0.5 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <motion.div
-          className="text-center mb-12"
+          className='mb-16 text-center'
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.55 }}
         >
-          <h2
-            className="text-3xl sm:text-4xl font-bold mb-4  duration-300"
-            style={{ color: `hsl(var(--color-text))` }}
-          >
-            Free & Open Source
+          <h2 className='mb-4 text-3xl font-bold duration-300 sm:text-4xl' style={{ color: `hsl(var(--color-text))` }}>
+            Pricing Plans
           </h2>
           <p
-            className="text-lg  duration-300"
+            className='text-xl duration-300'
             style={{
-              color: `hsl(var(--color-text) / 0.7)`,
+              color: `hsl(var(--color-text) / 0.65)`,
             }}
           >
-            All features available to everyone, forever
+            Everything you need, completely free and open source
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className='grid grid-cols-1 gap-8 md:grid-cols-3'>
           {PRICING_PLANS.map((plan, index) => (
             <motion.div
               key={plan.name}
-              className="rounded-lg overflow-hidden cursor-pointer"
-              style={{
-                backgroundColor: plan.highlighted
-                  ? `hsl(var(--color-primary) / 0.1)`
-                  : `hsl(var(--color-bg))`,
-                border: plan.highlighted
-                  ? `2px solid hsl(var(--color-primary))`
-                  : `1px solid hsl(var(--color-text) / 0.2)`,
-              }}
+              layoutId={selectedPlan === plan.name ? 'selectedCard' : undefined}
+              className='group relative cursor-pointer overflow-hidden rounded-2xl'
+              onClick={() => setSelectedPlan(plan.name)}
               initial={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.2 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
               whileHover={{
-                y: -8,
-                boxShadow: `0 20px 40px hsl(var(--color-primary) / 0.15)`,
+                y: -5,
+                transition: { duration: 0.2 },
+              }}
+              style={{
+                backgroundColor: selectedPlan === plan.name ? `hsl(var(--color-primary) / 0.08)` : `hsl(var(--color-bg))`,
+                border: selectedPlan === plan.name ? `2px solid hsl(var(--color-primary))` : `1px solid hsl(var(--color-text) / 0.12)`,
               }}
             >
-              {plan.highlighted && (
+              {/* Background gradient overlay */}
+              <div
+                className='absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100'
+                style={{
+                  background: `radial-gradient(circle at top right, hsl(var(--color-primary) / 0.1), transparent)`,
+                }}
+              />
+
+              {/* Selected indicator bar */}
+              {selectedPlan === plan.name && (
                 <div
-                  className="px-4 py-2 text-center text-sm font-bold  duration-300"
+                  className='px-8 py-3 text-center font-semibold duration-300'
                   style={{
                     backgroundColor: `hsl(var(--color-primary))`,
                     color: `hsl(var(--color-bg))`,
                   }}
                 >
-                  POPULAR
+                  <IconCheck size={16} strokeWidth={2} className='mr-2 inline-block' />
+                  Your Choice
                 </div>
               )}
 
-              <div className="p-8">
-                <h3
-                  className="text-2xl font-bold mb-2  duration-300"
-                  style={{ color: `hsl(var(--color-text))` }}
-                >
-                  {plan.name}
-                </h3>
-                <p
-                  className="text-sm mb-4  duration-300"
-                  style={{
-                    color: `hsl(var(--color-text) / 0.6)`,
-                  }}
-                >
-                  {plan.description}
-                </p>
-
-                <div
-                  className="text-4xl font-bold mb-6  duration-300"
-                  style={{
-                    color: `hsl(var(--color-primary))`,
-                  }}
-                >
-                  {plan.price}
-                  {plan.price !== "Custom" && (
-                    <span
-                      className="text-sm font-normal  duration-300"
-                      style={{
-                        color: `hsl(var(--color-text) / 0.6)`,
-                      }}
-                    >
-                      /month
-                    </span>
-                  )}
+              <div className='relative z-10 flex h-full flex-col p-8'>
+                {/* Header */}
+                <div className='mb-8'>
+                  <h3 className='mb-3 text-2xl font-bold duration-300' style={{ color: `hsl(var(--color-text))` }}>
+                    {plan.name}
+                  </h3>
+                  <p
+                    className='text-sm duration-300'
+                    style={{
+                      color: `hsl(var(--color-text) / 0.6)`,
+                    }}
+                  >
+                    {plan.description}
+                  </p>
                 </div>
 
+                {/* Pricing */}
+                <div className='mb-8'>
+                  <motion.div
+                    className='text-5xl font-bold duration-300'
+                    style={{
+                      color: `hsl(var(--color-primary))`,
+                    }}
+                  >
+                    {plan.price}
+                  </motion.div>
+                  <p
+                    className='mt-2 text-sm duration-300'
+                    style={{
+                      color: `hsl(var(--color-text) / 0.6)`,
+                    }}
+                  >
+                    {plan.price !== 'Custom' ? 'Forever free' : 'Contact us'}
+                  </p>
+                </div>
+
+                {/* CTA Button */}
                 <motion.button
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-full py-3 rounded-lg font-semibold  duration-300 mb-8"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className='mb-8 w-full rounded-lg py-3 font-semibold transition-all duration-300'
                   style={{
-                    backgroundColor: plan.highlighted
-                      ? `hsl(var(--color-primary))`
-                      : `hsl(var(--color-primary) / 0.1)`,
-                    color: plan.highlighted
-                      ? `hsl(var(--color-bg))`
-                      : `hsl(var(--color-primary))`,
+                    backgroundColor: selectedPlan === plan.name ? `hsl(var(--color-primary))` : `hsl(var(--color-primary) / 0.08)`,
+                    color: selectedPlan === plan.name ? `hsl(var(--color-bg))` : `hsl(var(--color-primary))`,
                   }}
                 >
-                  {plan.name === "Open Source" ? "Start Now" : "Learn More"}
+                  {selectedPlan === plan.name ? 'Selected' : 'Choose Plan'}
                 </motion.button>
 
-                <ul className="space-y-3">
-                  {plan.features.map((feature) => (
-                    <li
+                {/* Features */}
+                <ul className='flex-1 space-y-3'>
+                  {plan.features.map((feature, idx) => (
+                    <motion.li
                       key={feature}
-                      className="flex items-center gap-3 text-sm  duration-300"
+                      className='flex items-start gap-3 text-sm duration-300'
                       style={{
                         color: `hsl(var(--color-text) / 0.8)`,
                       }}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2, delay: idx * 0.05 }}
                     >
-                      <span className="text-lg">✓</span>
-                      {feature}
-                    </li>
+                      <motion.div
+                        className='mt-0.5 flex-shrink-0'
+                        style={{
+                          color: `hsl(var(--color-primary))`,
+                        }}
+                      >
+                        <IconCheck size={18} strokeWidth={2.5} />
+                      </motion.div>
+                      <span>{feature}</span>
+                    </motion.li>
                   ))}
                 </ul>
               </div>
+
+              {/* Bottom accent */}
+              <div
+                className='absolute bottom-0 left-0 right-0 h-px'
+                style={{
+                  background: `linear-gradient(90deg, transparent, hsl(var(--color-primary) / 0.3), transparent)`,
+                }}
+              />
             </motion.div>
           ))}
         </div>

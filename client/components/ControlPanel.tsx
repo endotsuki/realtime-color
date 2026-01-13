@@ -23,6 +23,8 @@ import {
   IconRepeat,
   IconRotateClockwise,
   IconTextResize,
+  IconArrowBackUp,
+  IconArrowForwardUp,
 } from '@tabler/icons-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -67,9 +69,45 @@ export const ControlPanel = () => {
   const [showPresets, setShowPresets] = useState(false);
   const [diceIcon, setDiceIcon] = useState(4);
 
+  // Undo/Redo state
+  const [history, setHistory] = useState([state.colors]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   const handleGenerateRandom = () => {
     generateRandomPalette();
     setDiceIcon(Math.floor(Math.random() * 6));
+
+    // Save to history
+    const newHistory = history.slice(0, currentIndex + 1);
+    newHistory.push(state.colors);
+    setHistory(newHistory);
+    setCurrentIndex(newHistory.length - 1);
+  };
+
+  const handleUndo = () => {
+    if (currentIndex > 0) {
+      const prevIndex = currentIndex - 1;
+      const prevColors = history[prevIndex];
+
+      Object.entries(prevColors).forEach(([key, value]) => {
+        updateColor(key as any, value);
+      });
+
+      setCurrentIndex(prevIndex);
+    }
+  };
+
+  const handleRedo = () => {
+    if (currentIndex < history.length - 1) {
+      const nextIndex = currentIndex + 1;
+      const nextColors = history[nextIndex];
+
+      Object.entries(nextColors).forEach(([key, value]) => {
+        updateColor(key as any, value);
+      });
+
+      setCurrentIndex(nextIndex);
+    }
   };
 
   const handleCopy = async (text: string, itemId: string) => {
@@ -79,6 +117,9 @@ export const ControlPanel = () => {
       setTimeout(() => setCopiedItem(null), 2000);
     }
   };
+
+  const canUndo = currentIndex > 0;
+  const canRedo = currentIndex < history.length - 1;
 
   return (
     <motion.div
@@ -304,6 +345,16 @@ export const ControlPanel = () => {
 
         {/* Actions */}
         <motion.div className='space-y-2' initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+          <div className='flex gap-2'>
+            <Button onClick={handleUndo} variant='design-review' className='flex-1' disabled={!canUndo}>
+              <IconArrowBackUp size={20} />
+              Undo
+            </Button>
+            <Button onClick={handleRedo} variant='design-review' className='flex-1' disabled={!canRedo}>
+              <IconArrowForwardUp size={20} />
+              Redo
+            </Button>
+          </div>
           <Button onClick={handleGenerateRandom} variant='design-review' className='w-full'>
             {React.createElement(DICE_ICONS[diceIcon], { size: 20 })}
             Random

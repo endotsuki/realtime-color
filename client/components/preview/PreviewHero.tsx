@@ -1,14 +1,13 @@
-import { motion } from "framer-motion";
-import { useTheme } from "@/contexts/ThemeContext";
+import { motion } from 'framer-motion';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export const PreviewHero = () => {
   const { state } = useTheme();
-  const { heroTitle, heroDescription, getStartedBtn, learnMoreBtn } =
-    state.textContent;
+  const { heroTitle, heroDescription, getStartedBtn, learnMoreBtn } = state.textContent;
 
   return (
     <motion.section
-      className="py-20 lg:py-32  duration-300"
+      className='py-20 duration-300 lg:py-32'
       style={{
         backgroundColor: `hsl(var(--color-bg))`,
         fontFamily: `var(--font-family)`,
@@ -18,19 +17,15 @@ export const PreviewHero = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, delay: 0.2 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
+      <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
+        <div className='space-y-8 text-center'>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
             <h1
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight  duration-300"
+              className='text-4xl font-bold leading-tight duration-300 sm:text-5xl lg:text-6xl'
               style={{ color: `hsl(var(--color-text))` }}
             >
               <span
-                className="bg-clip-text text-transparent  duration-300"
+                className='bg-clip-text text-transparent duration-300'
                 style={{
                   backgroundImage: `linear-gradient(135deg, hsl(var(--color-primary)), hsl(var(--color-secondary)))`,
                 }}
@@ -41,7 +36,7 @@ export const PreviewHero = () => {
           </motion.div>
 
           <motion.p
-            className="text-lg sm:text-xl max-w-2xl mx-auto  duration-300"
+            className='mx-auto max-w-2xl text-lg duration-300 sm:text-xl'
             style={{
               color: `hsl(var(--color-text) / 0.8)`,
             }}
@@ -53,15 +48,15 @@ export const PreviewHero = () => {
           </motion.p>
 
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className='flex flex-col justify-center gap-4 sm:flex-row'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 rounded-lg font-semibold  duration-300"
+              className='rounded-lg px-8 py-3 font-semibold duration-300'
               style={{
                 backgroundColor: `hsl(var(--color-primary))`,
                 color: `hsl(var(--color-bg))`,
@@ -71,9 +66,9 @@ export const PreviewHero = () => {
             </motion.button>
 
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 rounded-lg font-semibold  duration-300 border-2"
+              className='rounded-lg border px-8 py-3 font-semibold duration-300'
               style={{
                 borderColor: `hsl(var(--color-secondary))`,
                 color: `hsl(var(--color-secondary))`,
