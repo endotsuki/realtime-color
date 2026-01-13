@@ -99,7 +99,7 @@ export const PreviewPricing = () => {
                   className='px-8 py-3 text-center font-semibold duration-300'
                   style={{
                     backgroundColor: `hsl(var(--color-primary))`,
-                    color: `hsl(var(--color-bg))`,
+                    color: `hsl(var(--color-text))`,
                   }}
                 >
                   <IconCheck size={16} strokeWidth={2} className='mr-2 inline-block' />
