@@ -59,7 +59,7 @@ export const PreviewHero = () => {
               className='rounded-lg px-8 py-3 font-semibold duration-300'
               style={{
                 backgroundColor: `hsl(var(--color-primary))`,
-                color: `hsl(var(--color-bg))`,
+                color: `hsl(var(--color-text))`,
               }}
             >
               {getStartedBtn}

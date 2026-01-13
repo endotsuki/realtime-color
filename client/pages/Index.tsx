@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ThemeProvider } from "@/contexts/ThemeContext";
-import { PreviewArea } from "@/components/PreviewArea";
-import { ControlPanel } from "@/components/ControlPanel";
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ThemeProvider } from '@/contexts/ThemeContext';
+import { PreviewArea } from '@/components/PreviewArea';
+import { ControlPanel } from '@/components/ControlPanel';
 
 function IndexPage() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -10,36 +10,33 @@ function IndexPage() {
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
     <ThemeProvider>
-      <div className="h-screen flex flex-col bg-background">
+      <div className='flex h-screen flex-col bg-background'>
         {/* Mobile Header */}
         {isMobile && (
-          <div className="bg-background border-b border-border/30 px-4 py-3 flex items-center justify-between">
-            <h1 className="font-bold text-foreground text-lg">Color Studio</h1>
+          <div className='flex items-center justify-between border-b border-border/30 bg-background px-4 py-3'>
+            <h1 className='text-lg font-bold text-foreground'>Color Studio</h1>
             <motion.button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 hover:bg-muted rounded-lg transition-colors"
+              className='rounded-lg p-2 transition-colors hover:bg-muted'
               whileTap={{ scale: 0.95 }}
             >
-              {sidebarOpen ? "✕" : "≡"}
+              {sidebarOpen ? '✕' : '≡'}
             </motion.button>
           </div>
         )}
 
         {/* Main Content */}
-        <div
-          style={{ overflow: "hidden" }}
-          className="flex-1 flex overflow-hidden"
-        >
+        <div style={{ overflow: 'hidden' }} className='flex flex-1 overflow-hidden'>
           {/* Sidebar */}
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode='wait'>
             {(!isMobile || sidebarOpen) && (
-              <div className="w-full md:w-96 md:static absolute inset-0 md:inset-auto z-40">
+              <div className='absolute inset-0 z-40 w-full md:static md:inset-auto md:w-96'>
                 <ControlPanel />
               </div>
             )}

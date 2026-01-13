@@ -11,13 +11,11 @@ export const PreviewNavbar = () => {
   const [logo, setLogo] = useState('');
   const { toast } = useToast();
 
-  // Load logo from localStorage on mount
   useEffect(() => {
     const savedLogo = localStorage.getItem('navbar-logo');
     if (savedLogo) setLogo(savedLogo);
   }, []);
 
-  // Clear logo when reset happens
   useEffect(() => {
     const savedLogo = localStorage.getItem('navbar-logo');
     if (!savedLogo) {
@@ -25,12 +23,10 @@ export const PreviewNavbar = () => {
     }
   }, []);
 
-  // Handle file upload and save to localStorage
   const uploadLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Check file size (5MB = 5242880 bytes)
     const MAX_FILE_SIZE = 5 * 1024 * 1024;
     if (file.size > MAX_FILE_SIZE) {
       toast({
@@ -113,7 +109,7 @@ export const PreviewNavbar = () => {
             className='rounded-lg px-4 py-2 font-medium duration-300'
             style={{
               backgroundColor: `hsl(var(--color-primary))`,
-              color: `hsl(var(--color-bg))`,
+              color: `hsl(var(--color-text))`,
             }}
           >
             {navbarCta}

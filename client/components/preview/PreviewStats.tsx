@@ -15,7 +15,7 @@ export const PreviewStats = () => {
     <motion.section
       className='py-16 duration-300'
       style={{
-        backgroundColor: `hsl(var(--color-primary) / 0.08)`,
+        backgroundColor: `hsl(var(--color-secondary) / 0.08)`,
         fontFamily: `var(--font-family)`,
         fontWeight: `var(--font-weight)`,
       }}

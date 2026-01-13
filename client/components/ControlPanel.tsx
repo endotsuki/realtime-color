@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme, FONT_FAMILIES, COLOR_PRESETS } from '@/contexts/ThemeContext';
-import { ColorControl } from '@/components/ColorControl';
+import { useToast } from '@/hooks/use-toast';
+import { ColorsSection } from '@/components/ColorControl';
 import { FontUpload } from '@/components/FontUpload';
 import { TextEditor } from '@/components/TextEditor';
 import { ContrastChecker } from '@/components/ContrastChecker';
@@ -18,7 +19,6 @@ import {
   IconColorFilter,
   IconDownload,
   IconFileDescription,
-  IconPaletteFilled,
   IconRainbow,
   IconRepeat,
   IconRotateClockwise,
@@ -63,6 +63,7 @@ export const ControlPanel = () => {
     applyPreset,
   } = useTheme();
 
+  const { toast } = useToast();
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
   const [showExport, setShowExport] = useState(false);
   const [showContent, setShowContent] = useState(false);
@@ -139,22 +140,7 @@ export const ControlPanel = () => {
       {/* Scrollable Content */}
       <div className='scrollbar-hide flex-1 space-y-3 overflow-y-auto px-4 py-4'>
         {/* Colors */}
-        <motion.div
-          className='space-y-3 rounded-lg bg-muted/40 p-4'
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <div className='mb-2 flex items-center gap-2'>
-            <IconPaletteFilled />
-            <h2 className='text-xl font-semibold text-foreground'>Colors</h2>
-          </div>
-          <ColorControl label='Primary' value={state.colors.primary} onChange={(v) => updateColor('primary', v)} />
-          <ColorControl label='Secondary' value={state.colors.secondary} onChange={(v) => updateColor('secondary', v)} />
-          <ColorControl label='Accent' value={state.colors.accent} onChange={(v) => updateColor('accent', v)} />
-          <ColorControl label='Background' value={state.colors.bg} onChange={(v) => updateColor('bg', v)} />
-          <ColorControl label='Text' value={state.colors.text} onChange={(v) => updateColor('text', v)} />
-        </motion.div>
+        <ColorsSection colors={state.colors} onColorChange={updateColor} />
 
         {/* Display */}
         <motion.div
@@ -342,77 +328,73 @@ export const ControlPanel = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
           <ContrastChecker />
         </motion.div>
+      </div>
 
-        {/* Actions */}
-        <motion.div className='space-y-2' initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
-          <div className='flex gap-2'>
-            <Button onClick={handleUndo} variant='design-review' className='flex-1' disabled={!canUndo}>
-              <IconArrowBackUp size={20} />
-              Undo
-            </Button>
-            <Button onClick={handleRedo} variant='design-review' className='flex-1' disabled={!canRedo}>
-              <IconArrowForwardUp size={20} />
-              Redo
-            </Button>
-          </div>
+      {/* Actions - Fixed at Bottom */}
+      <div className='space-y-2 border-t border-border/30 bg-background px-4 py-3'>
+        <div className='flex gap-2'>
+          <Button onClick={handleUndo} variant='design-review' className='flex-1' disabled={!canUndo}>
+            <IconArrowBackUp size={16} />
+            Undo
+          </Button>
+          <Button onClick={handleRedo} variant='design-review' className='flex-1' disabled={!canRedo}>
+            <IconArrowForwardUp size={16} />
+            Redo
+          </Button>
+        </div>
+        <div className='flex gap-2'>
           <Button onClick={handleGenerateRandom} variant='design-review' className='w-full'>
-            {React.createElement(DICE_ICONS[diceIcon], { size: 20 })}
+            {React.createElement(DICE_ICONS[diceIcon], { size: 16 })}
             Random
           </Button>
-          <Button onClick={resetPalette} variant='in-review' className='w-full'>
-            <IconRotateClockwise size={20} />
-            Reset Colors
+          <Button onClick={resetPalette} variant='in-review' className='flex-1'>
+            <IconRotateClockwise size={16} />
+            Reset
           </Button>
+        </div>
+        <div className='flex gap-2'>
           <Button onClick={() => setShowExport(!showExport)} variant='done' className='w-full'>
-            <IconDownload size={20} />
+            <IconDownload size={16} />
             Export
           </Button>
-          <Button variant='blocked' onClick={resetAllToDefaults} className='w-full'>
-            <IconRepeat size={20} />
+          <Button variant='blocked' onClick={resetAllToDefaults} className='flex-1'>
+            <IconRepeat size={16} />
             Reset All
           </Button>
-        </motion.div>
+        </div>
 
-        {/* Export */}
+        {/* Export Panel - Inline */}
         <AnimatePresence>
           {showExport && (
             <motion.div
-              className='space-y-2 rounded-lg bg-muted/40 p-4'
+              className='space-y-2 rounded-lg bg-muted/40 p-3'
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <motion.div className='space-y-1' initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-                <p className='text-xs font-bold uppercase tracking-wide text-muted-foreground'>CSS Variables</p>
+              <motion.div className='space-y-1' initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+                <p className='text-xs font-bold uppercase tracking-wide text-muted-foreground'>CSS</p>
                 <div className='flex gap-2'>
                   <button
                     onClick={() => handleCopy(generateCSSVariables(state.colors), 'css')}
-                    className='flex-1 truncate rounded border border-border/50 bg-background px-2 py-1.5 text-left font-mono text-xs text-muted-foreground hover:bg-muted'
+                    className='flex-1 truncate rounded border border-border/50 bg-background px-2 py-1 text-left font-mono text-xs text-muted-foreground hover:bg-muted'
                   >
                     Copy
                   </button>
-                  {copiedItem === 'css' && (
-                    <div className='flex items-center gap-1 text-green-600'>
-                      <IconCheck size={16} />
-                    </div>
-                  )}
+                  {copiedItem === 'css' && <IconCheck size={16} className='text-green-600' />}
                 </div>
               </motion.div>
-              <motion.div className='space-y-1' initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-                <p className='text-xs font-bold uppercase tracking-wide text-muted-foreground'>Tailwind Config</p>
+              <motion.div className='space-y-1' initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+                <p className='text-xs font-bold uppercase tracking-wide text-muted-foreground'>Tailwind</p>
                 <div className='flex gap-2'>
                   <button
                     onClick={() => handleCopy(generateTailwindConfig(state.colors), 'tailwind')}
-                    className='flex-1 truncate rounded border border-border/50 bg-background px-2 py-1.5 text-left font-mono text-xs text-muted-foreground hover:bg-muted'
+                    className='flex-1 truncate rounded border border-border/50 bg-background px-2 py-1 text-left font-mono text-xs text-muted-foreground hover:bg-muted'
                   >
                     Copy
                   </button>
-                  {copiedItem === 'tailwind' && (
-                    <div className='flex items-center gap-1 text-green-600'>
-                      <IconCheck size={16} />
-                    </div>
-                  )}
+                  {copiedItem === 'tailwind' && <IconCheck size={16} className='text-green-600' />}
                 </div>
               </motion.div>
             </motion.div>

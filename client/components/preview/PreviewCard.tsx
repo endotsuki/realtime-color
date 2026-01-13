@@ -39,27 +39,27 @@ export const PreviewCard = () => {
               key={feature.title}
               className='cursor-default rounded-3xl border p-6'
               style={{
-                backgroundColor: `hsl(var(--color-primary) / 0.05)`,
-                borderColor: `hsl(var(--color-primary) / 0.3)`,
+                backgroundColor: `hsl(var(--color-secondary) / 0.05)`,
+                borderColor: `hsl(var(--color-secondary) / 0.3)`,
               }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
               whileHover={{
                 y: -4,
-                boxShadow: `0 20px 40px hsl(var(--color-primary) / 0.2)`,
+                boxShadow: `0 1px 90px hsl(var(--color-secondary) / 0.1)`,
               }}
             >
               <div
                 className='mb-6 flex h-14 w-14 items-center justify-center rounded-2xl'
                 style={{
-                  backgroundColor: `hsl(var(--color-secondary) / 0.15)`,
+                  backgroundColor: `hsl(var(--color-primary) / 0.15)`,
                 }}
               >
                 {React.createElement(CARD_ICONS[index % CARD_ICONS.length], {
                   size: 30,
                   stroke: 1.5,
-                  color: `hsl(var(--color-secondary))`,
+                  color: `hsl(var(--color-primary))`,
                 })}
               </div>
               <h3 className='mb-2 text-xl font-semibold duration-300' style={{ color: `hsl(var(--color-text))` }}>

@@ -150,7 +150,7 @@ export const PreviewPricing = () => {
                   className='mb-8 w-full rounded-lg py-3 font-semibold transition-all duration-300'
                   style={{
                     backgroundColor: selectedPlan === plan.name ? `hsl(var(--color-primary))` : `hsl(var(--color-primary) / 0.08)`,
-                    color: selectedPlan === plan.name ? `hsl(var(--color-bg))` : `hsl(var(--color-primary))`,
+                    color: selectedPlan === plan.name ? `hsl(var(--color-text))` : `hsl(var(--color-primary))`,
                   }}
                 >
                   {selectedPlan === plan.name ? 'Selected' : 'Choose Plan'}
