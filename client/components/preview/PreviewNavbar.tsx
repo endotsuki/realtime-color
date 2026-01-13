@@ -1,13 +1,37 @@
-import { motion } from "framer-motion";
-import { useTheme } from "@/contexts/ThemeContext";
+import { motion } from 'framer-motion';
+import { useTheme } from '@/contexts/ThemeContext';
+import { useRef, useState, useEffect } from 'react';
+import { IconUpload } from '@tabler/icons-react';
 
 export const PreviewNavbar = () => {
   const { state } = useTheme();
   const { navbarBrand, navbarItems, navbarCta } = state.textContent;
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [logo, setLogo] = useState('');
+
+  // Load logo from localStorage on mount
+  useEffect(() => {
+    const savedLogo = localStorage.getItem('navbar-logo');
+    if (savedLogo) setLogo(savedLogo);
+  }, []);
+
+  // Handle file upload and save to localStorage
+  const uploadLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const imageData = reader.result as string;
+      setLogo(imageData);
+      localStorage.setItem('navbar-logo', imageData);
+    };
+    reader.readAsDataURL(file);
+  };
 
   return (
     <motion.nav
-      className="border-b sticky top-0 h-20 duration-300 z-[1000]"
+      className='sticky top-0 z-[1000] h-20 border-b duration-300'
       style={{
         backgroundColor: `hsl(var(--color-bg)/ 0.5)`,
         backdropFilter: `saturate(180%) blur(7px)`,
@@ -19,38 +43,39 @@ export const PreviewNavbar = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <motion.div
-            className="flex items-center gap-2"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
-          >
-            <div
-              className="w-8 h-8 rounded-lg"
+      <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
+        <div className='flex h-16 items-center justify-between'>
+          <motion.div className='flex items-center gap-2' transition={{ duration: 0.2 }}>
+            <input ref={fileInputRef} type='file' accept='image/*' onChange={uploadLogo} className='hidden' />
+
+            <motion.div
+              onClick={() => fileInputRef.current?.click()}
+              className='flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded'
               style={{
-                background: `linear-gradient(135deg, hsl(var(--color-primary)), hsl(var(--color-accent)))`,
+                background: logo ? 'transparent' : `linear-gradient(135deg, hsl(var(--color-primary)), hsl(var(--color-accent)))`,
               }}
-            />
-            <span
-              className="font-bold text-lg"
-              style={{ color: `hsl(var(--color-text))` }}
+              whileHover={{ scale: 1.05 }}
             >
+              {logo ? (
+                <img src={logo} alt='Logo' className='h-full w-full object-cover' />
+              ) : (
+                <IconUpload size={16} style={{ color: `hsl(var(--color-text))` }} />
+              )}
+            </motion.div>
+
+            <span className='text-lg font-bold' style={{ color: `hsl(var(--color-text))` }}>
               {navbarBrand}
             </span>
           </motion.div>
 
-          <div className="flex items-center gap-6">
+          <div className='flex items-center gap-6'>
             {navbarItems.map((item) => (
               <motion.a
                 key={item}
-                href="#"
-                className=" duration-300"
+                href='#'
+                className='duration-300'
                 style={{ color: `hsl(var(--color-text))` }}
-                whileHover={{
-                  color: `hsl(var(--color-primary))`,
-                  scale: 1.05,
-                }}
+                whileHover={{ color: `hsl(var(--color-primary))`, scale: 1.05 }}
               >
                 {item}
               </motion.a>
@@ -60,7 +85,7 @@ export const PreviewNavbar = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-4 py-2 rounded-lg font-medium  duration-300"
+            className='rounded-lg px-4 py-2 font-medium duration-300'
             style={{
               backgroundColor: `hsl(var(--color-primary))`,
               color: `hsl(var(--color-bg))`,
