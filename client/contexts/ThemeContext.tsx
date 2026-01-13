@@ -57,12 +57,12 @@ export const DEFAULT_DARK_PALETTE: ColorPalette = {
 };
 
 export const FONT_FAMILIES = {
-  'Plus Jakarta Sans': '"Plus Jakarta Sans", sans-serif',
+  PlusJakartaSans: '"Plus Jakarta Sans", sans-serif',
   Roboto: '"Roboto", sans-serif',
   Georgia: 'Georgia, "Times New Roman", serif',
   Courier: '"Courier New", monospace',
   Verdana: 'Verdana, Geneva, sans-serif',
-  'Comic Sans': '"Comic Sans MS", cursive',
+  ComicSans: '"Comic Sans MS", cursive',
 };
 
 export const DEFAULT_TEXT_CONTENT: TextContent = {
@@ -229,7 +229,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           isDark: parsed.isDark ?? false,
           isRounded: parsed.isRounded ?? true,
           fontSize: parsed.fontSize || 'md',
-          fontFamily: parsed.fontFamily || 'Inter',
+          fontFamily: parsed.fontFamily || 'PlusJakartaSans',
           fontWeight: parsed.fontWeight || '400',
           customFontUrl: parsed.customFontUrl,
           customFontName: parsed.customFontName,
@@ -246,7 +246,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       isDark: true,
       isRounded: true,
       fontSize: 'md',
-      fontFamily: 'Inter',
+      fontFamily: 'PlusJakartaSans',
       fontWeight: '400',
       textContent: { ...DEFAULT_TEXT_CONTENT },
     };
@@ -439,7 +439,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       isDark: true,
       isRounded: true,
       fontSize: 'md',
-      fontFamily: 'Inter',
+      fontFamily: 'PlusJakartaSans',
       fontWeight: '400',
       textContent: { ...DEFAULT_TEXT_CONTENT },
     });

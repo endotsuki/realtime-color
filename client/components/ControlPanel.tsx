@@ -28,6 +28,7 @@ import {
 } from '@tabler/icons-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ModernCheckbox } from './ui/checkbox';
 
 const DICE_ICONS = [IconDice1Filled, IconDice2Filled, IconDice3Filled, IconDice4Filled, IconDice5Filled, IconDice6Filled];
 
@@ -153,24 +154,10 @@ export const ControlPanel = () => {
             <IconColorFilter />
             <h2 className='text-xl font-semibold text-foreground'>Display</h2>
           </div>
-          <label className='flex cursor-pointer items-center gap-3 rounded px-2 py-2 transition-colors hover:bg-background/50'>
-            <input
-              type='checkbox'
-              checked={state.isDark}
-              onChange={toggleDarkMode}
-              className='h-4 w-4 cursor-pointer rounded accent-primary'
-            />
-            <span className='text-sm text-foreground'>Dark Mode</span>
-          </label>
-          <label className='flex cursor-pointer items-center gap-3 rounded px-2 py-2 transition-colors hover:bg-background/50'>
-            <input
-              type='checkbox'
-              checked={state.isRounded}
-              onChange={toggleRounded}
-              className='h-4 w-4 cursor-pointer rounded accent-primary'
-            />
-            <span className='text-sm text-foreground'>Rounded Corners</span>
-          </label>
+          <div className='space-y-2'>
+            <ModernCheckbox label='Dark Mode' checked={state.isDark} onChange={toggleDarkMode} />
+            <ModernCheckbox label='Rounded Corners' checked={state.isRounded} onChange={toggleRounded} />
+          </div>
         </motion.div>
 
         {/* Typography */}
