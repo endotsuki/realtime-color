@@ -74,7 +74,7 @@ export const DEFAULT_TEXT_CONTENT: TextContent = {
     "Create, customize, and export beautiful color palettes in real-time. Perfect for designers, developers, and teams building the next generation of products.",
   getStartedBtn: "Start Designing",
   learnMoreBtn: "View Documentation",
-  cardTitle: "✨ Powerful Features",
+  cardTitle: "Powerful Features",
   features: [
     {
       title: "Live Preview",
@@ -280,7 +280,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     const fontSizeMap = { sm: "14px", md: "16px", lg: "18px" };
     root.style.setProperty("--font-size", fontSizeMap[state.fontSize]);
 
-    const radiusMap = { true: "0.5rem", false: "0px" };
+    const radiusMap = { true: "1rem", false: "0px" };
     root.style.setProperty(
       "--radius",
       radiusMap[String(state.isRounded) as any],

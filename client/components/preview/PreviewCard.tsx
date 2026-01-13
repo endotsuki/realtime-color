@@ -1,7 +1,22 @@
 import { motion } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
+import {
+  IconBrightness,
+  IconCloudDownload,
+  IconDeviceLaptop,
+  IconRocket,
+  IconTestPipe,
+  IconTextResize,
+} from "@tabler/icons-react";
 
-const CARD_ICONS = ["👁️", "🎯", "♿", "📥", "🔤", "🌓"];
+const CARD_ICONS = [
+  <IconDeviceLaptop size={40} stroke={1.5} />,
+  <IconTestPipe size={40} stroke={1.5} />,
+  <IconRocket size={40} stroke={1.5} />,
+  <IconCloudDownload size={40} stroke={1.5} />,
+  <IconTextResize size={40} stroke={1.5} />,
+  <IconBrightness size={40} stroke={1.5} />,
+];
 
 export const PreviewCard = () => {
   const { state } = useTheme();
@@ -41,7 +56,7 @@ export const PreviewCard = () => {
               className="p-6 rounded-lg border-2  duration-300"
               style={{
                 backgroundColor: `hsl(var(--color-primary) / 0.05)`,
-                borderColor: `hsl(var(--color-accent))`,
+                borderColor: `hsl(var(--color-primary) / 0.3)`,
               }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -51,9 +66,7 @@ export const PreviewCard = () => {
                 boxShadow: `0 20px 40px hsl(var(--color-primary) / 0.2)`,
               }}
             >
-              <div className="text-4xl mb-4">
-                {CARD_ICONS[index % CARD_ICONS.length]}
-              </div>
+              {CARD_ICONS[index % CARD_ICONS.length]}
               <h3
                 className="text-xl font-semibold mb-2  duration-300"
                 style={{ color: `hsl(var(--color-text))` }}

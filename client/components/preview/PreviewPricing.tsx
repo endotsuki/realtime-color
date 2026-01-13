@@ -88,18 +88,18 @@ export const PreviewPricing = () => {
           {PRICING_PLANS.map((plan, index) => (
             <motion.div
               key={plan.name}
-              className="rounded-lg overflow-hidden  duration-300"
+              className="rounded-lg overflow-hidden cursor-pointer"
               style={{
                 backgroundColor: plan.highlighted
                   ? `hsl(var(--color-primary) / 0.1)`
                   : `hsl(var(--color-bg))`,
                 border: plan.highlighted
                   ? `2px solid hsl(var(--color-primary))`
-                  : `1px solid hsl(var(--color-primary) / 0.2)`,
+                  : `1px solid hsl(var(--color-text) / 0.2)`,
               }}
               initial={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.2 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
               whileHover={{
                 y: -8,
                 boxShadow: `0 20px 40px hsl(var(--color-primary) / 0.15)`,
@@ -153,7 +153,7 @@ export const PreviewPricing = () => {
                 </div>
 
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.95 }}
                   className="w-full py-3 rounded-lg font-semibold  duration-300 mb-8"
                   style={{

@@ -59,13 +59,13 @@ export const PreviewTestimonials = () => {
               className="p-6 rounded-lg border  duration-300"
               style={{
                 backgroundColor: `hsl(var(--color-bg))`,
-                borderColor: `hsl(var(--color-secondary) / 0.5)`,
+                borderColor: `hsl(var(--color-primary) / 0.3)`,
               }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.55 + index * 0.1 }}
               whileHover={{
-                borderColor: `hsl(var(--color-secondary))`,
+                borderColor: `hsl(var(--color-primary) / 0.6)`,
                 y: -4,
               }}
             >

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ThemeProvider,
@@ -24,7 +24,12 @@ import {
   generateTailwindConfig,
 } from "@/utils/colorUtils";
 import {
-  IconArrowsRandom,
+  IconDice1Filled,
+  IconDice2Filled,
+  IconDice3Filled,
+  IconDice4Filled,
+  IconDice5Filled,
+  IconDice6Filled,
   IconCheck,
   IconChevronDown,
   IconColorFilter,
@@ -65,6 +70,22 @@ const ControlPanel = () => {
   const [showExport, setShowExport] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [showPresets, setShowPresets] = useState(false);
+  const [diceIcon, setDiceIcon] = useState(4);
+
+  const diceIcons = [
+    IconDice1Filled,
+    IconDice2Filled,
+    IconDice3Filled,
+    IconDice4Filled,
+    IconDice5Filled,
+    IconDice6Filled,
+  ];
+
+  const handleGenerateRandomPalette = () => {
+    generateRandomPalette();
+    const randomDice = Math.floor(Math.random() * 6);
+    setDiceIcon(randomDice);
+  };
 
   const handleCopy = async (text: string, itemId: string) => {
     const success = await copyToClipboard(text);
@@ -422,16 +443,16 @@ const ControlPanel = () => {
           transition={{ delay: 0.6 }}
         >
           <Button
-            onClick={generateRandomPalette}
+            onClick={handleGenerateRandomPalette}
             variant="design-review"
             className="w-full"
           >
-            <IconArrowsRandom size={16} />
+            {React.createElement(diceIcons[diceIcon], { size: 20 })}
             Random
           </Button>
 
           <Button onClick={resetPalette} variant="in-review" className="w-full">
-            <IconRotateClockwise size={16} />
+            <IconRotateClockwise size={20} />
             Reset Colors
           </Button>
 
@@ -440,7 +461,7 @@ const ControlPanel = () => {
             variant="done"
             className="w-full"
           >
-            <IconDownload size={16} />
+            <IconDownload size={20} />
             Export
           </Button>
 
@@ -449,7 +470,7 @@ const ControlPanel = () => {
             onClick={resetAllToDefaults}
             className="w-full"
           >
-            <IconRepeat size={16} />
+            <IconRepeat size={20} />
             Reset All
           </Button>
         </motion.div>
@@ -538,7 +559,7 @@ const PreviewArea = () => {
 
   return (
     <motion.div
-      className="flex-1 overflow-y-auto bg-background transition-colors duration-300"
+      className="flex-1 overflow-y-auto bg-background transition-colors duration-300 scrollbar-custom"
       style={{
         backgroundColor: `hsl(var(--color-bg))`,
       }}
