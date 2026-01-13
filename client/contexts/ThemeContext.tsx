@@ -280,9 +280,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     const fontSizeMap = { sm: "14px", md: "16px", lg: "18px" };
     root.style.setProperty("--font-size", fontSizeMap[state.fontSize]);
 
-    const radiusMap = { true: "12px", false: "0px" };
+    const radiusMap = { true: "0.5rem", false: "0px" };
     root.style.setProperty(
-      "--border-radius",
+      "--radius",
       radiusMap[String(state.isRounded) as any],
     );
 

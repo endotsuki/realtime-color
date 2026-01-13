@@ -23,7 +23,6 @@ import {
   generateCSSVariables,
   generateTailwindConfig,
 } from "@/utils/colorUtils";
-import { Combobox } from "@/components/ui/combobox";
 import {
   IconArrowsRandom,
   IconCheck,
@@ -38,6 +37,13 @@ import {
   IconTextResize,
 } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const ControlPanel = () => {
   const {
@@ -180,16 +186,22 @@ const ControlPanel = () => {
             <label className="text-xs font-medium text-muted-foreground block pl-1">
               Family
             </label>
-            <Combobox
-              options={Object.keys(FONT_FAMILIES).map((family) => ({
-                value: family,
-                label: family,
-              }))}
+            <Select
               value={state.fontFamily}
-              onChange={(v) => setFontFamily(v)}
-              placeholder="Select family..."
+              onValueChange={setFontFamily}
               disabled={!!state.customFontName}
-            />
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select family..." />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.keys(FONT_FAMILIES).map((family) => (
+                  <SelectItem key={family} value={family}>
+                    {family}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Font Weight */}
@@ -197,18 +209,21 @@ const ControlPanel = () => {
             <label className="text-xs font-medium text-muted-foreground block pl-1">
               Weight
             </label>
-            <Combobox
-              options={[
-                { value: "400", label: "Light (400)" },
-                { value: "500", label: "Regular (500)" },
-                { value: "600", label: "Semi Bold (600)" },
-                { value: "700", label: "Bold (700)" },
-                { value: "800", label: "Extra Bold (800)" },
-              ]}
+            <Select
               value={state.fontWeight}
-              onChange={(v) => setFontWeight(v as any)}
-              placeholder="Select weight..."
-            />
+              onValueChange={(v) => setFontWeight(v as any)}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select weight..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="400">Light (400)</SelectItem>
+                <SelectItem value="500">Regular (500)</SelectItem>
+                <SelectItem value="600">Semi Bold (600)</SelectItem>
+                <SelectItem value="700">Bold (700)</SelectItem>
+                <SelectItem value="800">Extra Bold (800)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Custom Font Upload */}
