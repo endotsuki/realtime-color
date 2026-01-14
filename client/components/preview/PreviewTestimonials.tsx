@@ -60,9 +60,10 @@ const TestimonialCard = ({ text, author, role, avatar }: (typeof TESTIMONIALS)[0
 
   return (
     <figure
-      className={cn('relative h-full w-80 cursor-pointer overflow-hidden rounded-2xl border p-6 transition-all duration-300')}
+      className={cn('relative h-full w-80 cursor-pointer overflow-hidden rounded-2xl border-2 p-6 transition-all duration-300')}
       style={{
-        backgroundColor: `hsl(var(--color-bg))`,
+        // gradient background color
+        background: `linear-gradient(135deg, hsl(var(--color-primary) / 0.1), hsl(var(--color-secondary) / 0.1))`,
         borderColor: `hsl(var(--color-primary) / 0.2)`,
       }}
     >

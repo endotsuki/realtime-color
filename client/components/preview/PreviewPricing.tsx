@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
-import { IconCheck } from '@tabler/icons-react';
+import { IconCheck, IconCircleCheckFilled } from '@tabler/icons-react';
 
 const PRICING_PLANS = [
   {
@@ -82,7 +82,7 @@ export const PreviewPricing = () => {
               transition={{ duration: 0.2 }}
               style={{
                 backgroundColor: selectedPlan === plan.name ? `hsl(var(--color-primary) / 0.08)` : `hsl(var(--color-bg))`,
-                border: selectedPlan === plan.name ? `2px solid hsl(var(--color-primary))` : `1px solid hsl(var(--color-text) / 0.12)`,
+                border: selectedPlan === plan.name ? `2px solid hsl(var(--color-primary)/0.5)` : `1px solid hsl(var(--color-text) / 0.12)`,
               }}
             >
               {/* Background gradient overlay */}
@@ -98,7 +98,7 @@ export const PreviewPricing = () => {
                 <div
                   className='px-8 py-3 text-center font-semibold duration-300'
                   style={{
-                    backgroundColor: `hsl(var(--color-primary))`,
+                    backgroundColor: `hsl(var(--color-primary)/0.5)`,
                     color: `hsl(var(--color-text))`,
                   }}
                 >
@@ -161,7 +161,7 @@ export const PreviewPricing = () => {
                   {plan.features.map((feature, idx) => (
                     <motion.li
                       key={feature}
-                      className='flex items-start gap-3 text-sm duration-300'
+                      className='flex items-end gap-3 text-sm duration-300'
                       style={{
                         color: `hsl(var(--color-text) / 0.8)`,
                       }}
@@ -175,7 +175,7 @@ export const PreviewPricing = () => {
                           color: `hsl(var(--color-primary))`,
                         }}
                       >
-                        <IconCheck size={18} strokeWidth={2.5} />
+                        <IconCircleCheckFilled size={20} strokeWidth={2.5} />
                       </motion.div>
                       <span>{feature}</span>
                     </motion.li>
