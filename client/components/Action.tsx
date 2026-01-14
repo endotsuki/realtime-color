@@ -22,7 +22,7 @@ export const ActionsSection: React.FC<ActionsSectionProps> = ({
   colors,
   copiedItem,
   setCopiedItem,
-}) => {
+}): React.ReactNode => {
   return (
     <div className='space-y-2 border-t border-border/30 bg-background px-4 py-3'>
       <div className='flex gap-2'>
@@ -55,7 +55,7 @@ interface ExportPanelProps {
   setCopiedItem: (item: string | null) => void;
 }
 
-export const ExportPanel: React.FC<ExportPanelProps> = ({ colors, copiedItem, setCopiedItem }) => {
+export const ExportPanel: React.FC<ExportPanelProps> = ({ colors, copiedItem, setCopiedItem }): React.ReactNode => {
   const handleCopy = async (text: string, itemId: string) => {
     const success = await copyToClipboard(text);
     if (success) {

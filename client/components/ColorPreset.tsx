@@ -1,10 +1,20 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { IconTemplate, IconChevronDown, IconSearch, IconX, IconSparkles, IconMoon, IconSun } from '@tabler/icons-react';
+import {
+  IconTemplate,
+  IconChevronDown,
+  IconSearch,
+  IconX,
+  IconSparkles,
+  IconMoon,
+  IconSun,
+  IconLayoutGridFilled,
+  IconLayoutListFilled,
+} from '@tabler/icons-react';
 import { getColorPresets } from '@/constants/colorPresets';
 import { Button } from './ui/button';
+import { Input } from './ui/input';
 
-// Types
 type ViewMode = 'grid' | 'compact';
 
 interface ViewToggleProps {
@@ -18,13 +28,13 @@ const SearchBar = ({ value, onChange, onClear }: any) => (
   <div className='mb-4 mt-4'>
     <div className='relative'>
       <IconSearch className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400' />
-      <input
+      <Input
         type='text'
         placeholder='Search presets...'
         value={value}
         onChange={onChange}
-        autoFocus
-        className='w-full rounded-lg border border-gray-300 bg-white py-2 pl-10 pr-10 text-sm text-gray-900 placeholder-gray-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100'
+        // autoFocus
+        className='w-full py-2 pl-10 pr-10 text-sm placeholder-gray-400'
       />
       {value && (
         <button onClick={onClear} className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600'>
@@ -57,26 +67,31 @@ const CategoryPills = ({ categories, selected, onSelect, count }: any) => (
 );
 
 const ViewToggle = ({ mode, onModeChange, count }: ViewToggleProps) => {
+  const views: ViewMode[] = ['grid', 'compact'];
+  const icons = { grid: IconLayoutGridFilled, compact: IconLayoutListFilled };
+
   return (
     <div className='mb-4 flex items-center justify-between gap-3'>
       <p className='text-sm font-medium text-gray-600 dark:text-gray-400'>
         {count} {count === 1 ? 'preset' : 'presets'} found
       </p>
       <div className='flex rounded-xl bg-gray-100 p-1 dark:bg-gray-800'>
-        {(['grid', 'compact'] as ViewMode[]).map((view) => {
+        {views.map((view) => {
           const isActive = mode === view;
+          const Icon = icons[view];
           return (
-            <button
+            <Button
+              variant='ghost'
               key={view}
               onClick={() => onModeChange(view)}
-              className={`relative rounded-sm px-3 py-1.5 text-xs font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+              className={`relative px-3 text-xs transition-all duration-200 ${
                 isActive
                   ? 'bg-white text-gray-900 shadow-sm dark:bg-gray-700 dark:text-gray-100'
                   : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200'
               } `}
             >
-              {view.charAt(0).toUpperCase() + view.slice(1)}
-            </button>
+              <Icon className='h-4 w-4' />
+            </Button>
           );
         })}
       </div>
