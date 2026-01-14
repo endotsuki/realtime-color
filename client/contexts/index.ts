@@ -19,7 +19,6 @@ export {
   setFontFamilyAction,
   setFontWeightAction,
   setCustomFontAction,
-  generateRandomPaletteAction,
   resetPaletteAction,
   updateTextContentAction,
   resetTextContentAction,

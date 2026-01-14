@@ -50,7 +50,6 @@ export interface ThemeContextType {
   setFontWeight: (weight: '400' | '500' | '600' | '700' | '800') => void;
   setCustomFont: (url: string, name: string) => void;
   updateTextContent: (key: keyof TextContent, value: any) => void;
-  generateRandomPalette: () => void;
   resetPalette: () => void;
   resetTextContent: () => void;
   resetAllToDefaults: () => void;

@@ -1,15 +1,14 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '@/contexts/ThemeContext';
-import { getColorPresets } from '@/constants/colorPresets';
 import { ColorsSection } from '@/components/ColorControl';
 import { DisplaySection } from './Display';
 import { TypographySection } from './Typography';
 import { ContentSection } from './Content';
-import { PresetsSection } from './ColorPreset';
 import { ActionsSection } from './Action';
 import { useColorHistory } from '../hooks/useColorHistory';
 import { ContrastChecker } from './ContrastChecker';
+import PresetsSection from './ColorPreset';
 
 export const ControlPanel = () => {
   const {
@@ -21,7 +20,6 @@ export const ControlPanel = () => {
     setFontWeight,
     setCustomFont,
     updateTextContent,
-    generateRandomPalette,
     resetPalette,
     resetTextContent,
     resetAllToDefaults,
@@ -32,21 +30,6 @@ export const ControlPanel = () => {
   const [showExport, setShowExport] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [showPresets, setShowPresets] = useState(false);
-  const [diceIcon, setDiceIcon] = useState(4);
-
-  // Get filtered presets based on current dark mode
-  const filteredPresets = useMemo(() => {
-    return getColorPresets(state.isDark ? 'dark' : 'light');
-  }, [state.isDark]);
-
-  // Undo/Redo functionality
-  const { handleUndo, handleRedo, canUndo, canRedo, saveToHistory } = useColorHistory(state.colors, updateColor);
-
-  const handleGenerateRandom = () => {
-    generateRandomPalette();
-    setDiceIcon(Math.floor(Math.random() * 6));
-    saveToHistory(state.colors);
-  };
 
   return (
     <motion.div
@@ -69,12 +52,7 @@ export const ControlPanel = () => {
 
         <DisplaySection isDark={state.isDark} isRounded={state.isRounded} toggleDarkMode={toggleDarkMode} toggleRounded={toggleRounded} />
 
-        <PresetsSection
-          showPresets={showPresets}
-          setShowPresets={setShowPresets}
-          filteredPresets={filteredPresets}
-          applyPreset={applyPreset}
-        />
+        <PresetsSection showPresets={showPresets} setShowPresets={setShowPresets} applyPreset={applyPreset} currentColors={state.colors} />
 
         <TypographySection
           fontFamily={state.fontFamily}
@@ -99,12 +77,6 @@ export const ControlPanel = () => {
       </div>
 
       <ActionsSection
-        handleUndo={handleUndo}
-        handleRedo={handleRedo}
-        canUndo={canUndo}
-        canRedo={canRedo}
-        handleGenerateRandom={handleGenerateRandom}
-        diceIcon={diceIcon}
         resetPalette={resetPalette}
         showExport={showExport}
         setShowExport={setShowExport}

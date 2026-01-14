@@ -11,7 +11,6 @@ import {
   setFontFamilyAction,
   setFontWeightAction,
   setCustomFontAction,
-  generateRandomPaletteAction,
   resetPaletteAction,
   updateTextContentAction,
   resetTextContentAction,
@@ -63,10 +62,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setState((prev) => setCustomFontAction(prev, url, name));
   };
 
-  const generateRandomPalette = () => {
-    setState((prev) => generateRandomPaletteAction(prev));
-  };
-
   const resetPalette = () => {
     setState((prev) => resetPaletteAction(prev));
   };
@@ -99,7 +94,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setFontWeight,
         setCustomFont,
         updateTextContent,
-        generateRandomPalette,
         resetPalette,
         resetTextContent,
         resetAllToDefaults,

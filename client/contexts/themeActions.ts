@@ -56,48 +56,6 @@ export const setCustomFontAction = (state: ThemeState, url: string, name: string
   return { ...state, customFontUrl: url, customFontName: name };
 };
 
-export const generateRandomPaletteAction = (state: ThemeState): ThemeState => {
-  // Generate a random base hue
-  const baseHue = Math.floor(Math.random() * 360);
-
-  // Choose a random harmony type
-  const harmonyType = ['complementary', 'triadic', 'analogous', 'split-complementary'][Math.floor(Math.random() * 4)];
-
-  let hueOffsets = [0, 60, 120]; // Default: triadic
-
-  if (harmonyType === 'complementary') {
-    hueOffsets = [0, 180];
-  } else if (harmonyType === 'analogous') {
-    hueOffsets = [0, 30, 330];
-  } else if (harmonyType === 'split-complementary') {
-    hueOffsets = [0, 150, 210];
-  }
-
-  // Vibrant saturation and lightness
-  const saturation = Math.floor(Math.random() * 25 + 75); // 75-100%
-  const primaryLightness = Math.floor(Math.random() * 15 + 48); // 48-63%
-
-  // Create colors from harmony offsets
-  const colors = hueOffsets.map((offset) => {
-    const hue = (baseHue + offset) % 360;
-    return `${hue} ${saturation}% ${primaryLightness}%`;
-  });
-
-  const bgLight = state.isDark ? '0 0% 12%' : '0 0% 100%';
-  const textLight = state.isDark ? '0 0% 95%' : '0 0% 10%';
-
-  return {
-    ...state,
-    colors: {
-      primary: colors[0],
-      secondary: colors[1],
-      accent: colors.length > 2 ? colors[2] : `${(baseHue + 45) % 360} ${saturation}% ${primaryLightness}%`,
-      bg: bgLight,
-      text: textLight,
-    },
-  };
-};
-
 export const resetPaletteAction = (state: ThemeState): ThemeState => {
   return {
     ...state,
