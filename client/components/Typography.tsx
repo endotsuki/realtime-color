@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { IconTextResize } from '@tabler/icons-react';
-import { FONT_FAMILIES } from '@/contexts/ThemeContext';
+import { FONT_FAMILIES } from '@/contexts';
 import { FontUpload } from '@/components/FontUpload';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
