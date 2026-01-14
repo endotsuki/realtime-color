@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTheme, FONT_FAMILIES, COLOR_PRESETS } from '@/contexts/ThemeContext';
+import { useTheme, FONT_FAMILIES } from '@/contexts/ThemeContext';
+import { getColorPresets } from '@/constants/colorPresets';
 import { useToast } from '@/hooks/use-toast';
 import { ColorsSection } from '@/components/ColorControl';
 import { FontUpload } from '@/components/FontUpload';
@@ -70,6 +71,11 @@ export const ControlPanel = () => {
   const [showContent, setShowContent] = useState(false);
   const [showPresets, setShowPresets] = useState(false);
   const [diceIcon, setDiceIcon] = useState(4);
+
+  // Get filtered presets based on current dark mode
+  const filteredPresets = useMemo(() => {
+    return getColorPresets(state.isDark ? 'dark' : 'light');
+  }, [state.isDark]);
 
   // Undo/Redo state
   const [history, setHistory] = useState([state.colors]);
@@ -283,7 +289,7 @@ export const ControlPanel = () => {
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                {COLOR_PRESETS.map((preset) => (
+                {filteredPresets.map((preset) => (
                   <motion.button
                     key={preset.name}
                     onClick={() => applyPreset(preset)}
@@ -299,7 +305,7 @@ export const ControlPanel = () => {
                           key={key}
                           className='h-4 w-4 rounded-full border border-gray-300 dark:border-gray-600'
                           style={{
-                            backgroundColor: `hsl(${preset.colors[key]})`,
+                            backgroundColor: `hsl(${preset.colors[key as keyof typeof preset.colors]})`,
                           }}
                         />
                       ))}

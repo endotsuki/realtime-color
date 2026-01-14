@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { ColorPreset } from '@/constants/colorPresets';
 
 export interface ColorPalette {
   primary: string;
@@ -117,84 +118,6 @@ export const DEFAULT_TEXT_CONTENT: TextContent = {
   ],
   footerCopyright: '© 2024 Color Studio. Open source and free forever.',
 };
-
-// Modern preset color palettes with good contrast
-export const COLOR_PRESETS: ColorPreset[] = [
-  {
-    name: 'Aurora',
-    description: 'Cool and fresh modern palette',
-    colors: {
-      primary: '220 90% 56%', // Modern blue
-      secondary: '280 90% 56%', // Purple
-      accent: '340 95% 55%', // Vibrant pink
-      bg: '0 0% 100%',
-      text: '0 0% 10%',
-    },
-  },
-  {
-    name: 'Sunset',
-    description: 'Warm and energetic palette',
-    colors: {
-      primary: '20 95% 55%', // Warm orange
-      secondary: '340 85% 55%', // Red
-      accent: '50 95% 55%', // Golden yellow
-      bg: '0 0% 100%',
-      text: '0 0% 10%',
-    },
-  },
-  {
-    name: 'Forest',
-    description: 'Natural and calming palette',
-    colors: {
-      primary: '160 70% 45%', // Teal
-      secondary: '100 60% 50%', // Green
-      accent: '30 85% 60%', // Warm accent
-      bg: '0 0% 100%',
-      text: '160 30% 15%',
-    },
-  },
-  {
-    name: 'Ocean',
-    description: 'Deep and professional palette',
-    colors: {
-      primary: '210 80% 50%', // Ocean blue
-      secondary: '180 85% 50%', // Cyan
-      accent: '45 95% 55%', // Bright yellow
-      bg: '0 0% 100%',
-      text: '210 20% 15%',
-    },
-  },
-  {
-    name: 'Midnight',
-    description: 'Dark mode professional palette',
-    colors: {
-      primary: '260 90% 60%', // Bright purple
-      secondary: '220 90% 60%', // Bright blue
-      accent: '40 95% 60%', // Bright amber
-      bg: '0 0% 12%',
-      text: '0 0% 95%',
-    },
-    darkMode: true,
-  },
-  {
-    name: 'Monochrome',
-    description: 'Minimalist and elegant palette',
-    colors: {
-      primary: '0 0% 20%', // Dark gray
-      secondary: '0 0% 40%', // Medium gray
-      accent: '280 100% 60%', // Accent purple
-      bg: '0 0% 100%',
-      text: '0 0% 10%',
-    },
-  },
-];
-
-export interface ColorPreset {
-  name: string;
-  colors: ColorPalette;
-  darkMode?: boolean;
-  description?: string;
-}
 
 interface ThemeContextType {
   state: ThemeState;
@@ -449,7 +372,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setState((prev) => ({
       ...prev,
       colors: { ...preset.colors },
-      isDark: preset.darkMode ?? prev.isDark,
     }));
   };
 
