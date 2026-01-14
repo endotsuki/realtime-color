@@ -33,7 +33,6 @@ const SearchBar = ({ value, onChange, onClear }: any) => (
         placeholder='Search presets...'
         value={value}
         onChange={onChange}
-        // autoFocus
         className='w-full py-2 pl-10 pr-10 text-sm placeholder-gray-400'
       />
       {value && (
@@ -214,6 +213,7 @@ export default function PresetsSection({ showPresets, setShowPresets, applyPrese
       <button onClick={() => setShowPresets(!showPresets)} className='flex w-full items-center justify-between p-5 focus:outline-none'>
         <div className='flex items-center gap-3'>
           <IconTemplate className='h-6 w-6 text-primary' />
+          sssssssssss
           <h2 className='text-xl font-semibold text-gray-900 dark:text-gray-100'>Color Presets</h2>
         </div>
         <IconChevronDown className={`transform transition-transform duration-300 ${showPresets ? 'rotate-0' : '-rotate-90'}`} />
@@ -222,7 +222,7 @@ export default function PresetsSection({ showPresets, setShowPresets, applyPrese
       <AnimatePresence>
         {showPresets && (
           <motion.div
-            className='border-t border-gray-200 px-5 pb-5 dark:border-gray-700'
+            className='max-h-[70vh] overflow-hidden border-t border-gray-200 px-5 pb-5 dark:border-gray-700'
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -237,22 +237,24 @@ export default function PresetsSection({ showPresets, setShowPresets, applyPrese
             />
             <ViewToggle mode={viewMode} onModeChange={setViewMode} count={displayedPresets.length} />
 
-            {displayedPresets.length === 0 ? (
-              <EmptyState onClear={clearFilters} />
-            ) : (
-              <div className={`grid gap-4 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}>
-                {displayedPresets.map((preset, index) => (
-                  <PresetCard
-                    key={preset.name + index}
-                    preset={preset}
-                    isActive={activePreset === preset.name}
-                    viewMode={viewMode}
-                    index={index}
-                    onClick={() => handleApplyPreset(preset)}
-                  />
-                ))}
-              </div>
-            )}
+            <div className='mt-4 max-h-[calc(70vh-220px)] overflow-y-auto pr-2'>
+              {displayedPresets.length === 0 ? (
+                <EmptyState onClear={clearFilters} />
+              ) : (
+                <div className={`grid gap-4 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}>
+                  {displayedPresets.map((preset, index) => (
+                    <PresetCard
+                      key={preset.name + index}
+                      preset={preset}
+                      isActive={activePreset === preset.name}
+                      viewMode={viewMode}
+                      index={index}
+                      onClick={() => handleApplyPreset(preset)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

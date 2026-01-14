@@ -24,23 +24,25 @@ export const ActionsSection: React.FC<ActionsSectionProps> = ({
   setCopiedItem,
 }): React.ReactNode => {
   return (
-    <div className='space-y-2 border-t border-border/30 bg-background px-4 py-3'>
-      <div className='flex gap-2'>
-        <Button onClick={resetPalette} variant='in-review' className='w-full'>
-          <IconRotateClockwise size={16} />
-          Reset
-        </Button>
-      </div>
-      <div className='flex gap-2'>
-        <Button onClick={() => setShowExport(!showExport)} variant='done' className='w-full'>
-          <IconDownload size={16} />
-          Export
-        </Button>
-        <Button variant='blocked' onClick={resetAllToDefaults} className='flex-1'>
-          <IconRepeat size={16} />
-          Reset All
-        </Button>
-      </div>
+    <div className='border-t border-border/30 bg-background'>
+      <span className='space-y-2'>
+        <div className='flex gap-2'>
+          <Button onClick={resetPalette} variant='in-review' className='w-full'>
+            <IconRotateClockwise size={16} />
+            Reset
+          </Button>
+        </div>
+        <div className='flex gap-2'>
+          <Button onClick={() => setShowExport(!showExport)} variant='done' className='w-full'>
+            <IconDownload size={16} />
+            Export
+          </Button>
+          <Button variant='blocked' onClick={resetAllToDefaults} className='flex-1'>
+            <IconRepeat size={16} />
+            Reset All
+          </Button>
+        </div>
+      </span>
 
       <AnimatePresence>
         {showExport && <ExportPanel colors={colors} copiedItem={copiedItem} setCopiedItem={setCopiedItem} />}
@@ -71,33 +73,35 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({ colors, copiedItem, se
 
   return (
     <motion.div
-      className='space-y-3 rounded-lg bg-muted/30 p-3'
+      className='px-4'
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: 'auto' }}
       exit={{ opacity: 0, height: 0 }}
-      transition={{ duration: 0.25, ease: 'easeOut' }}
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
     >
-      {items.map(({ key, label, getValue }, index) => (
-        <motion.div
-          key={key}
-          className='space-y-1'
-          initial={{ opacity: 0, y: 4 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05 * index }}
-        >
-          <p className='text-[10px] font-semibold uppercase tracking-wider text-muted-foreground'>{label}</p>
+      <span className='space-y-4 p-4'>
+        {items.map(({ key, label, getValue }, index) => (
+          <motion.div
+            key={key}
+            className='space-y-2'
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 * index }}
+          >
+            <p className='text-[10px] font-semibold uppercase tracking-wider text-muted-foreground'>{label}</p>
 
-          <div className='flex items-center gap-2'>
-            <Button variant='on-hold' onClick={() => handleCopy(getValue(colors), key)} className='flex-1 hover:bg-muted'>
-              Copy
-            </Button>
+            <div className='flex items-center'>
+              <Button variant='on-hold' onClick={() => handleCopy(getValue(colors), key)} className='flex-1 hover:bg-muted'>
+                Copy
+              </Button>
 
-            <motion.div layout className='flex h-4 w-4 items-center justify-center'>
-              {copiedItem === key && <IconCheck size={14} className='text-green-600' />}
-            </motion.div>
-          </div>
-        </motion.div>
-      ))}
+              <motion.div layout className='flex h-4 w-4 items-center justify-center'>
+                {copiedItem === key && <IconCheck size={14} className='text-green-600' />}
+              </motion.div>
+            </div>
+          </motion.div>
+        ))}
+      </span>
     </motion.div>
   );
 };

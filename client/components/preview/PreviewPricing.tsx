@@ -1,33 +1,33 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
-import { IconCheck, IconCircleCheckFilled } from '@tabler/icons-react';
+import { IconCheck, IconRosetteDiscountCheckFilled } from '@tabler/icons-react';
 
 const PRICING_PLANS = [
   {
-    name: 'Open Source',
+    name: 'Basic',
     price: 'Free',
     description: 'For everyone, forever',
     features: [
       'Unlimited Projects',
-      'All Color Features',
-      'Live Preview',
-      'Accessibility Checker',
-      'Full Export Options',
-      'Open Source Code',
+      'Access to All Features',
+      'Community Support',
+      'Regular Updates',
+      'Use Any License',
+      'Zero Restrictions',
     ],
     highlighted: true,
   },
   {
-    name: 'Self-Hosted',
-    price: '$49',
+    name: 'Pro',
+    price: '$0.00',
     description: 'Run on your own infrastructure',
     features: ['Docker Support', 'Full Control', 'No Data Sharing', 'Custom Branding', 'Team Collaboration', 'API Access'],
     highlighted: false,
   },
   {
-    name: 'Community',
-    price: '$99',
+    name: 'Enterprise',
+    price: '$0.00',
     description: 'Built by and for designers',
     features: ['Community Support', 'Regular Updates', 'Contribute Features', 'Vote on Roadmap', 'Use Any License', 'Zero Restrictions'],
     highlighted: false,
@@ -175,7 +175,7 @@ export const PreviewPricing = () => {
                           color: `hsl(var(--color-primary))`,
                         }}
                       >
-                        <IconCircleCheckFilled size={20} strokeWidth={2.5} />
+                        <IconRosetteDiscountCheckFilled size={20} strokeWidth={2.5} />
                       </motion.div>
                       <span>{feature}</span>
                     </motion.li>

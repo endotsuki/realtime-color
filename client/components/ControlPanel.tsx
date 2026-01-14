@@ -6,7 +6,6 @@ import { DisplaySection } from './Display';
 import { TypographySection } from './Typography';
 import { ContentSection } from './Content';
 import { ActionsSection } from './Action';
-import { useColorHistory } from '../hooks/useColorHistory';
 import { ContrastChecker } from './ContrastChecker';
 import PresetsSection from './ColorPreset';
 
